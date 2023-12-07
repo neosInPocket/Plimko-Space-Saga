@@ -1,10 +1,10 @@
 using System;
 using UnityEngine;
 
-public class SerializedProperty<T> where T : struct
+public class SerializedProperty<T> : ISerializable where T : struct
 {
-	protected string Identifier { get; }
-	protected T DefaultValue { get; }
+	protected SaveType SaveType { get; private set; }
+	protected T DefaultValue { get; private set; }
 	public T Value
 	{
 		get
@@ -21,19 +21,32 @@ public class SerializedProperty<T> where T : struct
 	
 	private T _value;
 	
+	public SerializedProperty(SaveType identifier, T defaultValue, bool clearOnLoad)
+	{
+		SaveType = identifier;
+		DefaultValue = defaultValue;
+		
+		if (clearOnLoad)
+		{
+			Value = DefaultValue;
+		}
+		
+		Deserialize();
+	}
+	
 	protected void Serialize()
 	{
 		Type propertyType = typeof(T);
 		
 		if (propertyType == typeof(int))
 		{
-			PlayerPrefs.SetInt(Identifier, (int)(object)Value);
+			PlayerPrefs.SetInt(SaveType.ToString(), (int)(object)Value);
 			return;
 		}
 		
 		if (propertyType == typeof(float))
 		{
-			PlayerPrefs.SetFloat(Identifier, (float)(object)Value);
+			PlayerPrefs.SetFloat(SaveType.ToString(), (float)(object)Value);
 			return;
 		}
 		
@@ -42,7 +55,7 @@ public class SerializedProperty<T> where T : struct
 			bool value = (bool)(object)Value;
 			int result = value == true ? 1 : 0;
 			
-			PlayerPrefs.SetInt(Identifier, result);
+			PlayerPrefs.SetInt(SaveType.ToString(), result);
 			return;
 		}
 	}
@@ -53,13 +66,13 @@ public class SerializedProperty<T> where T : struct
 		
 		if (propertyType == typeof(int))
 		{
-			_value = (T)(object)PlayerPrefs.GetInt(Identifier, (int)(object)DefaultValue);
+			_value = (T)(object)PlayerPrefs.GetInt(SaveType.ToString(), (int)(object)DefaultValue);
 			return;
 		}
 		
 		if (propertyType == typeof(float))
 		{
-			_value = (T)(object)PlayerPrefs.GetFloat(Identifier, (float)(object)DefaultValue);
+			_value = (T)(object)PlayerPrefs.GetFloat(SaveType.ToString(), (float)(object)DefaultValue);
 			return;
 		}
 		
@@ -68,10 +81,15 @@ public class SerializedProperty<T> where T : struct
 			var defaultValue = (bool)(object)DefaultValue;
 			int result = defaultValue == true ? 1 : 0;
 			
-			var value = PlayerPrefs.GetInt(Identifier, (int)(object)defaultValue);
+			var value = PlayerPrefs.GetInt(SaveType.ToString(), (int)(object)defaultValue);
 			bool valueResult = value == 1 ? true : false;
 			_value = (T)(object)valueResult;
 			return;
 		}
 	}
+}
+
+public interface ISerializable 
+{ 
+	
 }

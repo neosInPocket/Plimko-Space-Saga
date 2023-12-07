@@ -1,18 +1,28 @@
-using System.Collections;
-using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class LevelChooser : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+	[SerializeField] private LevelButton prefab;
+	[SerializeField] private int levelCount;
+	[SerializeField] private Transform spawnContainer;
+	[SerializeField] private SavePropertiesController saveController;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+	private void Start()
+	{
+		for (int i = 0; i < levelCount; i++)
+		{
+			var button = Instantiate(prefab, spawnContainer);
+			button.Level = i;
+
+			if ((int)saveController.GetPropertyValue(SaveType.LevelsPassed, PropertyType.Int) >= i)
+			{
+				button.Interactable = true;
+			}
+			else
+			{
+				button.Interactable = false;
+			}
+		}
+	}
 }

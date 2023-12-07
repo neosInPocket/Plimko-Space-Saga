@@ -6,6 +6,6 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Properties")]
 public class SaveProperties : ScriptableObject
 {
-	[SerializeField] private List<SerializedProperty> properties;
-	public List<SerializedProperty> Properties => properties;
+	[SerializeField] private List<ScriptableProperty> properties;
+	public List<ScriptableProperty> Properties => properties;
 }
