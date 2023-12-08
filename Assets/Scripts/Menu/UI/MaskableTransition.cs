@@ -11,8 +11,8 @@ public class MaskableTransition : MaskableGraphic
 
 		Vector2 a = new Vector2(0, 0);
 		Vector2 b = new Vector2(0, 50);
-		Vector2 c = new Vector2(100 + Time.realtimeSinceStartup * transitionSpeed, 0);
-		Vector2 d = new Vector2(100 + Time.realtimeSinceStartup * transitionSpeed, 100);
+		Vector2 c = new Vector2(100, 0);
+		Vector2 d = new Vector2(100, 100);
 
 		var color = Color.white;
 
