@@ -17,6 +17,7 @@ public class MaskableTransition : MaskableGraphic
 	private UIVertex[] vertices;
 	private float currentX;
 	private bool isPlaying;
+	public bool IsPlaying => isPlaying;
 	public float CurrentX => currentX;
 
 	protected override void Start()
@@ -52,6 +53,7 @@ public class MaskableTransition : MaskableGraphic
 
 	public void PlayTransition(bool reverse)
 	{
+		StopAllCoroutines();
 		StartCoroutine(Transition(reverse));
 	}
 
@@ -97,7 +99,7 @@ public class MaskableTransition : MaskableGraphic
 			float distance = Mathf.Abs(vertices[0].position.x - screenSize.x);
 			float magnitude = distance;
 
-			while (vertices[0].position.x < screenSize.x)
+			while (vertices[0].position.x < 3 * screenSize.x / 2)
 			{
 				currentX = vertices[0].position.x;
 				vertices[0].position.x += transitionSpeed * Time.deltaTime * (distance + speedThreshold) / magnitude;
@@ -113,7 +115,7 @@ public class MaskableTransition : MaskableGraphic
 			float distance = Mathf.Abs(vertices[3].position.x - screenSize.x);
 			float magnitude = distance;
 
-			while (vertices[3].position.x < screenSize.x)
+			while (vertices[3].position.x < 3 * screenSize.x / 2)
 			{
 				currentX = vertices[3].position.x;
 				vertices[2].position.x += transitionSpeed * Time.deltaTime * (distance + speedThreshold) / magnitude;
