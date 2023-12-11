@@ -18,70 +18,73 @@ public class SerializedProperty<T> : ISerializable where T : struct
 			Serialize();
 		}
 	}
-	
+
 	private T _value;
-	
+
 	public SerializedProperty(SaveType identifier, T defaultValue, bool clearOnLoad)
 	{
 		SaveType = identifier;
 		DefaultValue = defaultValue;
-		
+
 		if (clearOnLoad)
 		{
 			Value = DefaultValue;
 		}
-		
+
 		Deserialize();
 	}
-	
+
 	protected void Serialize()
 	{
 		Type propertyType = typeof(T);
-		
+
 		if (propertyType == typeof(int))
 		{
-			PlayerPrefs.SetInt(SaveType.ToString(), (int)(object)Value);
+			PlayerPrefs.SetInt(SaveType.ToString(), (int)(object)_value);
+			PlayerPrefs.Save();
 			return;
 		}
-		
+
 		if (propertyType == typeof(float))
 		{
-			PlayerPrefs.SetFloat(SaveType.ToString(), (float)(object)Value);
+			PlayerPrefs.SetFloat(SaveType.ToString(), (float)(object)_value);
+			PlayerPrefs.Save();
 			return;
 		}
-		
+
 		if (propertyType == typeof(bool))
 		{
-			bool value = (bool)(object)Value;
+			bool value = (bool)(object)_value;
 			int result = value == true ? 1 : 0;
-			
+
 			PlayerPrefs.SetInt(SaveType.ToString(), result);
+			PlayerPrefs.Save();
 			return;
 		}
 	}
-	
+
 	protected void Deserialize()
 	{
 		Type propertyType = typeof(T);
-		
+
 		if (propertyType == typeof(int))
 		{
 			_value = (T)(object)PlayerPrefs.GetInt(SaveType.ToString(), (int)(object)DefaultValue);
 			return;
 		}
-		
+
 		if (propertyType == typeof(float))
 		{
 			_value = (T)(object)PlayerPrefs.GetFloat(SaveType.ToString(), (float)(object)DefaultValue);
 			return;
 		}
-		
+
 		if (propertyType == typeof(bool))
 		{
 			var defaultValue = (bool)(object)DefaultValue;
-			int result = defaultValue == true ? 1 : 0;
-			
-			var value = PlayerPrefs.GetInt(SaveType.ToString(), (int)(object)defaultValue);
+
+			int defaultValueInt = defaultValue == true ? 1 : 0;
+			var value = PlayerPrefs.GetInt(SaveType.ToString(), defaultValueInt);
 			bool valueResult = value == 1 ? true : false;
 			_value = (T)(object)valueResult;
 			return;
@@ -89,7 +92,7 @@ public class SerializedProperty<T> : ISerializable where T : struct
 	}
 }
 
-public interface ISerializable 
-{ 
-	
+public interface ISerializable
+{
+
 }

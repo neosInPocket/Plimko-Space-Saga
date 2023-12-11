@@ -47,6 +47,21 @@ public class MaskableTransition : MaskableGraphic
 		}
 		else
 		{
+			Vector2 a = Vector2.zero;
+			Vector2 b = Vector2.zero;
+			Vector2 c = Vector2.zero;
+			Vector2 d = Vector2.zero;
+
+			vertices = new UIVertex[]
+			{
+				new UIVertex { position = a, color = maskColor },
+				new UIVertex { position = b, color = maskColor },
+				new UIVertex { position = c, color = maskColor },
+				new UIVertex { position = d, color = maskColor }
+			};
+
+			SetVerticesDirty();
+
 			canvasGroup.blocksRaycasts = false;
 		}
 	}
@@ -132,6 +147,8 @@ public class MaskableTransition : MaskableGraphic
 
 	protected override void OnPopulateMesh(VertexHelper vh)
 	{
+		if (vertices == null || vertices.Length == 0) return;
+
 		vh.Clear();
 
 		if (!Application.isPlaying) return;

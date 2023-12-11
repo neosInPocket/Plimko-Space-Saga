@@ -3,5 +3,7 @@ public enum SaveType
 	LevelsPassed,
 	Coins,
 	Gems,
-	TutorialCompleted
+	TutorialCompleted,
+	MusicVolume,
+	SFXVolume
 }
