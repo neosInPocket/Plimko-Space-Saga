@@ -5,25 +5,22 @@ using UnityEngine;
 
 public class ColorPalette : MonoBehaviour
 {
-	[SerializeField] private ColorButton colorButtonPrefab;
 	[SerializeField] private PieceColors pieceColors;
 	[SerializeField] private TemporaryColorViewer colorViewer;
 	[SerializeField] private PieceColoring pieceColoring;
+	[SerializeField] private List<ColorButton> buttons;
 	private List<Color> allColors => pieceColors.Colors;
-	private List<ColorButton> buttons;
-	
+
+
 	private void Start()
 	{
-		for (int i = 0; i < allColors.Count; i++)
+		for (int i = 0; i < 3; i++)
 		{
-			var button = Instantiate(colorButtonPrefab, transform);
-			button.OnClicked += OnButtonClicked;
-			buttons.Add(button);
+			buttons[i].OnClicked += OnButtonClicked;
+			buttons[i].CurrentButtonColor = pieceColors.Colors[i];
 		}
-		
-		colorViewer.Color = pieceColors.DefaultColor;
 	}
-	
+
 	private void OnButtonClicked(ColorButton button)
 	{
 		pieceColoring.CurrentColor = button.CurrentButtonColor;

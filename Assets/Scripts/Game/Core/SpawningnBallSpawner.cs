@@ -12,27 +12,33 @@ public class SpawningnBallSpawner : MonoBehaviour
 	[SerializeField] private Vector2 xBounds;
 	[SerializeField] private float yBound;
 	[SerializeField] private int poolSize;
-	
+	[SerializeField] private PieceColors pieceColors;
+	[SerializeField] private SavePropertiesController saveController;
+
 	public bool Enabled { get; set; }
 	private bool isSpawning;
 	private List<SpawningBall> ballsPool;
 	private Vector2 screenSize;
-	
+
 	private void Start()
 	{
 		screenSize = Camera.main.ScreenToWorldPoint(new Vector2(Screen.width, Screen.height));
-		
+		ballsPool = new List<SpawningBall>();
+
+
 		for (int i = 0; i < poolSize; i++)
 		{
 			var ball = Instantiate(ballPrefab, transform);
 			ball.gameObject.SetActive(false);
+			var gravityScalePoints = (int)saveController.GetPropertyValue(SaveType.FallSpeed, PropertyType.Int);
+			ball.Rigid.gravityScale = (1 - (float)gravityScalePoints / 4) / 8 + 0.2f;
 			ballsPool.Add(ball);
 		}
-		
+
 		Enabled = true;
 		Debug.LogError("Delete");
 	}
-	
+
 	private void Update()
 	{
 		if (!Enabled)
@@ -40,30 +46,37 @@ public class SpawningnBallSpawner : MonoBehaviour
 			StopAllCoroutines();
 			return;
 		}
-		
+
 		if (isSpawning) return;
-		
+
 		StartCoroutine(SpawnCoroutine());
 	}
-	
+
 	private IEnumerator SpawnCoroutine()
 	{
 		isSpawning = true;
-		float randomX = Random.Range(xBounds.x * screenSize.x - screenSize.x, xBounds.y * screenSize.x - screenSize.x);
-		float y = screenSize.y * yBound - screenSize.y;
+		float randomX = Random.Range(2 * xBounds.x * screenSize.x - screenSize.x, 2 * xBounds.y * screenSize.x - screenSize.x);
+		float y = 2 * screenSize.y * yBound - screenSize.y;
 		Vector2 position = new Vector2(randomX, y);
-		
+
 		var inactiveBall = ballsPool.FirstOrDefault(x => !x.gameObject.activeSelf);
 		if (inactiveBall == null)
 		{
 			var ball = Instantiate(ballPrefab, position, Quaternion.identity, transform);
+			ball.CurrentColor = pieceColors.PickRandomColor();
+			ballsPool.Add(ball);
+			var gravityScalePoints = (int)saveController.GetPropertyValue(SaveType.FallSpeed, PropertyType.Int);
+			ball.Rigid.gravityScale = (1 - (float)gravityScalePoints / 4) / 8 + 0.2f;
 		}
 		else
 		{
 			inactiveBall.gameObject.SetActive(true);
 			inactiveBall.transform.position = position;
+			inactiveBall.CurrentColor = pieceColors.PickRandomColor();
 		}
-		
+
 		yield return new WaitForSeconds(delay);
+
+		isSpawning = false;
 	}
 }

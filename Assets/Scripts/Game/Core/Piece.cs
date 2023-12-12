@@ -11,29 +11,39 @@ public class Piece : MonoBehaviour
 	[SerializeField] private SpriteRenderer spriteRenderer;
 	[SerializeField] private CircleCollider2D magnetZone;
 	[SerializeField] private float magnetStrength;
-	
+
 	public bool Enabled
 	{
 		get => magnetZone.gameObject.activeSelf;
 		set
 		{
 			magnetZone.gameObject.SetActive(value);
-			
+
 			if (!value)
 			{
 				targetBalls.Clear();
 			}
 		}
 	}
-	
+
 	private List<SpawningBall> targetBalls;
-	private Color currentAttractedColor;
-	
+	private Color currentAttractedColor
+	{
+		get => attractedColor;
+		set
+		{
+			attractedColor = value;
+			spriteRenderer.color = value;
+		}
+	}
+
+	private Color attractedColor;
+
 	private void Start()
 	{
 		targetBalls = new List<SpawningBall>();
 	}
-	
+
 	public void ToggleMagnet(Color color)
 	{
 		if (!Enabled)
@@ -52,38 +62,44 @@ public class Piece : MonoBehaviour
 				currentAttractedColor = color;
 			}
 		}
-		
+
 		currentAttractedColor = color;
 	}
-	
+
 	private void Update()
 	{
 		if (targetBalls.Count == 0 || !Enabled) return;
-		
+
 		foreach (var ball in targetBalls)
 		{
 			var difference = ball.transform.position - transform.position;
 			var direction = difference.normalized;
 			var distance = difference.sqrMagnitude;
 			var traveled = distance / circleCollider.radius;
-			
+
 			ball.Rigid.velocity = Vector2.Lerp(ball.Rigid.velocity, direction * magnetStrength, 1 - traveled);
 		}
 	}
-	
+
 	private void OnTriggerEnter2D(Collider2D collider)
 	{
 		if (collider.TryGetComponent<SpawningBall>(out SpawningBall ball))
 		{
-			targetBalls.Add(ball);
+			if (Enabled && currentAttractedColor == ball.CurrentColor)
+			{
+				targetBalls.Add(ball);
+			}
 		}
 	}
-	
+
 	private void OnTriggerExit2D(Collider2D collider)
 	{
 		if (collider.TryGetComponent<SpawningBall>(out SpawningBall ball))
 		{
-			targetBalls.Remove(ball);
+			if (targetBalls.Contains(ball))
+			{
+				targetBalls.Remove(ball);
+			}
 		}
 	}
 }

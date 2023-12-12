@@ -10,7 +10,7 @@ public class ColorButton : MonoBehaviour
 	[SerializeField] private Button button;
 	public Button Button => button;
 	public Action<ColorButton> OnClicked;
-	
+
 	public Color CurrentButtonColor
 	{
 		get => currentColor;
@@ -20,14 +20,14 @@ public class ColorButton : MonoBehaviour
 			buttonImageColor.color = value;
 		}
 	}
-	
+
 	private Color currentColor;
-	
+
 	private void Start()
 	{
 		button.onClick.AddListener(ButtonClicked);
 	}
-	
+
 	private void ButtonClicked()
 	{
 		OnClicked?.Invoke(this);
