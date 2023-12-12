@@ -31,3 +31,9 @@ MonoBehaviour:
   - propertyType: 1
     identifier: 5
     defaultValue: 1
+  - propertyType: 0
+    identifier: 6
+    defaultValue: 0
+  - propertyType: 0
+    identifier: 7
+    defaultValue: 0

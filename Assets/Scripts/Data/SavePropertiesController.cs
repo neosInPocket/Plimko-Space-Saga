@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
@@ -39,7 +40,8 @@ public class SavePropertiesController : MonoBehaviour
 	{
 		if (propertyType == PropertyType.Int)
 		{
-			((SerializedProperty<int>)serializables[id]).Value = (int)value;
+			var property = (SerializedProperty<int>)serializables[id];
+			property.Value = Convert.ToInt32(value);
 		}
 
 		if (propertyType == PropertyType.Float)

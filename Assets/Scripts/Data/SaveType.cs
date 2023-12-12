@@ -5,5 +5,7 @@ public enum SaveType
 	Gems,
 	TutorialCompleted,
 	MusicVolume,
-	SFXVolume
+	SFXVolume,
+	MagnetStrength,
+	FallSpeed
 }
