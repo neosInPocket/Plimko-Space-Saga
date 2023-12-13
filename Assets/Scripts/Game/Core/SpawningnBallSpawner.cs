@@ -16,7 +16,7 @@ public class SpawningnBallSpawner : MonoBehaviour
 	[SerializeField] private SavePropertiesController saveController;
 
 	public bool Enabled { get; set; }
-	private bool isSpawning;
+	public bool isSpawning { get; set; }
 	private List<SpawningBall> ballsPool;
 	private Vector2 screenSize;
 
@@ -31,12 +31,9 @@ public class SpawningnBallSpawner : MonoBehaviour
 			var ball = Instantiate(ballPrefab, transform);
 			ball.gameObject.SetActive(false);
 			var gravityScalePoints = (int)saveController.GetPropertyValue(SaveType.FallSpeed, PropertyType.Int);
-			ball.Rigid.gravityScale = (1 - (float)gravityScalePoints / 4) / 8 + 0.2f;
+			ball.Rigid.gravityScale = (1 - (float)gravityScalePoints / 4) / 10 + 0.15f;
 			ballsPool.Add(ball);
 		}
-
-		Enabled = true;
-		Debug.LogError("Delete");
 	}
 
 	private void Update()
@@ -78,5 +75,13 @@ public class SpawningnBallSpawner : MonoBehaviour
 		yield return new WaitForSeconds(delay);
 
 		isSpawning = false;
+	}
+
+	public void Clear()
+	{
+		foreach (var ball in ballsPool)
+		{
+			ball.gameObject.SetActive(false);
+		}
 	}
 }

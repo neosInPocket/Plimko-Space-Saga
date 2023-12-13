@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -10,6 +11,7 @@ public class FloatingZoneController : MonoBehaviour
 	[SerializeField] private Canvas innerCanvas;
 	[SerializeField] private TMP_Text counterText;
 	public Canvas InnerCanvas => innerCanvas;
+
 
 	public Color CurrentColor
 	{
@@ -43,7 +45,20 @@ public class FloatingZoneController : MonoBehaviour
 	private Vector2 size;
 
 	public int TargetBallCount { get; set; }
-	private int currentBallCount => targetBalls.Count;
+	public int currentBallCount
+	{
+		get
+		{
+			if (targetBalls == null || targetBalls.Count == 0)
+			{
+				return 0;
+			}
+			else
+			{
+				return targetBalls.Count;
+			}
+		}
+	}
 
 	private Color currentColor;
 	private List<SpawningBall> targetBalls;
@@ -77,7 +92,7 @@ public class FloatingZoneController : MonoBehaviour
 		}
 	}
 
-	private void RefreshText()
+	public void RefreshText()
 	{
 		counterText.text = $"{currentBallCount}/{TargetBallCount}";
 	}

@@ -1,4 +1,7 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class MainObjectSpawner : MonoBehaviour
@@ -13,15 +16,19 @@ public class MainObjectSpawner : MonoBehaviour
 	[SerializeField] private FloatingZoneController triggerZone;
 	[SerializeField] private PieceColors pieceColors;
 	[SerializeField] private Camera canvasCamera;
+	[SerializeField] private ColorPalette colorPalette;
+	[SerializeField] private AnimationCurve magnetCurve;
+	[SerializeField] private SavePropertiesController saveController;
 	private List<Piece> pieces;
 	private List<FloatingZoneController> zones;
 	private Vector2 screenSize;
 
 
-	private void Start()
+	private void Awake()
 	{
 		pieces = new List<Piece>();
 		screenSize = Camera.main.ScreenToWorldPoint(new Vector2(Screen.width, Screen.height));
+		zones = new List<FloatingZoneController>();
 
 		CreatePyramid();
 	}
@@ -43,7 +50,10 @@ public class MainObjectSpawner : MonoBehaviour
 
 			for (int j = rowsAmount - i; j > 0; j--)
 			{
-				pieces.Add(Instantiate(piece, piecePosition, Quaternion.identity, piecesContainer));
+				var pieceInstance = Instantiate(piece, piecePosition, Quaternion.identity, piecesContainer);
+				pieces.Add(pieceInstance);
+				pieceInstance.ColorUsed += OnColorUsed;
+
 				piecePosition.x += horizontalStep;
 			}
 
@@ -68,8 +78,50 @@ public class MainObjectSpawner : MonoBehaviour
 			zone.InnerCanvas.worldCamera = canvasCamera;
 			zone.Size = new Vector2(zoneWidth, zoneHeight);
 			zone.CurrentColor = pieceColors.Colors[i];
+			zones.Add(zone);
 		}
 	}
 
+	private void Update()
+	{
+		if (isCompleted) return;
 
+		if (zones.Count(x => x.currentBallCount == x.TargetBallCount) == zones.Count)
+		{
+			CompletedAction();
+			isCompleted = true;
+		}
+	}
+
+	public Action CompletedAction;
+	public bool isCompleted;
+
+	public void SetZones(int targetBalls, Action OnCompleted)
+	{
+		CompletedAction = OnCompleted;
+		isCompleted = false;
+
+		foreach (var zone in zones)
+		{
+			zone.TargetBallCount = targetBalls;
+			zone.RefreshText();
+		}
+	}
+
+	private void OnColorUsed(Color color)
+	{
+		colorPalette.RemoveColor(color);
+	}
+
+	public void Clear()
+	{
+		int magnetUpgrade = (int)saveController.GetPropertyValue(SaveType.MagnetStrength, PropertyType.Int);
+		float magnetStrength = magnetCurve.Evaluate(magnetUpgrade);
+
+		foreach (var piece in pieces)
+		{
+			piece.Disable();
+			piece.Enable(magnetStrength);
+		}
+	}
 }

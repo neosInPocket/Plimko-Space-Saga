@@ -18,7 +18,7 @@ MonoBehaviour:
     defaultValue: 0
   - propertyType: 0
     identifier: 1
-    defaultValue: 100
+    defaultValue: 10
   - propertyType: 0
     identifier: 2
     defaultValue: 0

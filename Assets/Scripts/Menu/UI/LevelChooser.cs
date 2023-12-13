@@ -57,7 +57,22 @@ public class LevelChooser : MonoBehaviour
 
 	private void StartGame()
 	{
-		levelEngine.CurrentLevel = currentSelectedLevel;
+		levelEngine.CurrentLevel = currentSelectedLevel + 1;
 		gameStarter.FadeGame();
+	}
+
+	public void Refresh()
+	{
+		for (int i = 0; i < levelCount; i++)
+		{
+			if ((int)saveController.GetPropertyValue(SaveType.LevelsPassed, PropertyType.Int) >= i)
+			{
+				buttons[i].Interactable = true;
+			}
+			else
+			{
+				buttons[i].Interactable = false;
+			}
+		}
 	}
 }

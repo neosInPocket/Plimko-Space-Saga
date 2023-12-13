@@ -7,7 +7,9 @@ using UnityEngine.UI;
 public class ColorButton : MonoBehaviour
 {
 	[SerializeField] Image buttonImageColor;
+	[SerializeField] private GameObject silence;
 	[SerializeField] private Button button;
+	public GameObject SilenceImage => silence;
 	public Button Button => button;
 	public Action<ColorButton> OnClicked;
 
