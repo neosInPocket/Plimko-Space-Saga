@@ -2105,7 +2105,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tutorialText: {fileID: 1661798158}
   texts:
-  - WELCOME TO Plimko Epic Expedition!
+  - WELCOME TO Plimko Space Saga!
   - YOUR GOAL IS TO DISTRIBUTE THE BALLS FALLING FROM FROM FROM HIGH INTO THE DIFFERENT
     COLORED ZONES
   - TO DO THIS, SELECT A COLOR ON THE PANEL AND CLICK ON THE PYRAMID BALLS
@@ -5591,7 +5591,7 @@ MonoBehaviour:
   m_ChildAlignment: 3
   m_StartCorner: 0
   m_StartAxis: 1
-  m_CellSize: {x: 250, y: 250}
+  m_CellSize: {x: 220, y: 220}
   m_Spacing: {x: 25.9, y: 41.53}
   m_Constraint: 2
   m_ConstraintCount: 2
@@ -6924,10 +6924,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1109964101}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.13016823, y: 0.11856802}
-  m_AnchorMax: {x: 0.8698318, y: 0.8928585}
+  m_AnchorMin: {x: 0.041227654, y: 0.11856802}
+  m_AnchorMax: {x: 0.95877236, y: 0.8928585}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 538.7213}
+  m_SizeDelta: {x: 0, y: 468.0054}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!114 &926286810
 MonoBehaviour:
@@ -6942,7 +6942,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 1
-  m_AspectRatio: 0.64597315
+  m_AspectRatio: 0.8574219
 --- !u!114 &926286811
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7479,7 +7479,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 4
-  m_AspectRatio: 0.5
+  m_AspectRatio: 0.46191406
 --- !u!114 &1051403244
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10583,7 +10583,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: PLIMKO SUPER ENERGY
+  m_text: Plimko Space Saga
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 394a12dd52b47d14d9ad09d3a5add616, type: 2}
   m_sharedMaterial: {fileID: 8452531039194120182, guid: 394a12dd52b47d14d9ad09d3a5add616, type: 2}

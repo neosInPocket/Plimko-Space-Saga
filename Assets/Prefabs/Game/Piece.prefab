@@ -78,7 +78,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 1
-  m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 5bc317ec39afed04e9bee379d42aabec, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -168,7 +168,6 @@ MonoBehaviour:
   spriteRenderer: {fileID: 8325122801685373488}
   magnetZone: {fileID: 235449840267853448}
   particles: {fileID: 7422027101513352255}
-  magnetStrength: 2
 --- !u!1 &8083824251369687290
 GameObject:
   m_ObjectHideFlags: 0
