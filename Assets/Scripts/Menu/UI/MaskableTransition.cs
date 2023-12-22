@@ -8,7 +8,6 @@ public class MaskableTransition : MaskableGraphic
 	[SerializeField] private Color maskColor;
 	[SerializeField] private float maskTopEdge;
 	[SerializeField] private float maskBottomEdge;
-	[SerializeField] private float maskWidth;
 	[SerializeField] private float speedThreshold;
 	[SerializeField] private CanvasGroup canvasGroup;
 	[SerializeField] private bool enabledByDefault;
@@ -25,15 +24,15 @@ public class MaskableTransition : MaskableGraphic
 		if (!Application.isPlaying) return;
 
 		base.Start();
-		screenSize = new Vector2(Screen.width / 2, Screen.height / 2);
+		screenSize = new Vector2(Screen.width, Screen.height);
 
 		if (enabledByDefault)
 		{
 			canvasGroup.blocksRaycasts = true;
-			Vector2 d = new Vector2(-screenSize.x, -screenSize.y);
-			Vector2 c = new Vector2(-screenSize.x, screenSize.y);
-			Vector2 a = new Vector2(screenSize.x, -screenSize.y);
-			Vector2 b = new Vector2(screenSize.x, screenSize.y);
+			Vector2 a = new Vector2(-screenSize.x, -screenSize.y);
+			Vector2 b = new Vector2(-screenSize.x, screenSize.y);
+			Vector2 d = new Vector2(screenSize.x, -screenSize.y);
+			Vector2 c = new Vector2(screenSize.x, screenSize.y);
 
 			vertices = new UIVertex[]
 			{
